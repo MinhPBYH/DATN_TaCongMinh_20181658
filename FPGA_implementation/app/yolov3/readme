@@ -1,0 +1,66 @@
+/*
+ * Copyright 2019 Xilinx Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/*===============================Biên dịch chương trình thực thi=================================*/
+//Biên dịch các chương trình thực sử dụng cross-compiler đã được cài đặt, chương trình thực thi được 
+//biên dịch nằm trong cùng thư mục.
+/*==============================================================================================*/
+1, compile
+
+cd app
+source /opt/petalinux/2020.2/environment-setup-aarch64-xilinx-linux
+./build.sh
+
+/*=========================Sao chép tệp thực thi đã biên dịch và ảnh hoặc video vào kit phát triển ZCU104===============*/
+2, copy the compiled executable file and test image to the development board.
+
+
+*======================Chạy chương trình thực thi==================================*/
+3, Run
+3.1 Chạy chương trình thực thi với ảnh:
+/*==========================================*/
+// sample_image.jpg; là ảnh muốn kiểm tra phát hiện trạng thái mệt mỏi hay tỉnh táo
+// Ảnh kết quả suy luận và hậu xử lý sẽ được lưu cùng thư mục với "sample_image.jpg" và có tên file là "sample_image_result.jpg"
+/*==========================================*/
+
+./test_jpeg_yolov3 sample_image.jpg
+
+./test_jpeg_yolov3_tiny sample_image.jpg
+
+./test_jpeg_yolov3_tiny_3l sample_image.jpg
+
+3.2 Chạy chương trình thực thi với video
+/*==========================================*/
+// Chương trình có thể chạy với file ".webm" hoặc ".avi"
+// Kết quả video sau khi được suy luận và hậu xử lý sẽ hiển thị trên màn hình kết nối với kit ZCU 104\
+// -t 2: Sử dụng 2 luồng thực thi. Số luồng có thể thay đổi từ 1-8
+/*==========================================*/
+
+// NOTE: trước khi thực thi với video hoặc camera cần thực thi dòng lệnh sau để kết nối kit với màn hình:
+export DISPLAY=:0.0
+
+a, chạy chương trình với video
+./test_video_yolov3 video_status_detection.webm -t 2
+./test_video_yolov3_tiny video_status_detection.webm -t 2
+./test_video_yolov3_tiny_3l video_status_detection.webm -t 2
+
+b, chạy chương trình vơi camera:
+// NOTE: trước khi thực thi với camera cần thực thi dòng lệnh sau để kết nối kit với camera:
+xrandr --output DP-1
+
+./test_video_yolov3 0 -t 2
+./test_video_yolov3_tiny 0 -t 2
+./test_video_yolov3_tiny_3l 0 -t 2

@@ -1,0 +1,46 @@
+/*
+ * Copyright 2019 Xilinx Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/*===============================Biên dịch chương trình thực thi=================================*/
+//Biên dịch các chương trình thực sử dụng cross-compiler đã được cài đặt, chương trình thực thi được 
+//biên dịch nằm trong cùng thư mục.
+/*==============================================================================================*/
+1, compile
+
+cd app
+source /opt/petalinux/2020.2/environment-setup-aarch64-xilinx-linux
+./build.sh
+
+
+/*=====================Chạy chương trình thực thi=====================*/
+// video_status_detection.webm: là video hình ảnh tài xế lái xe.
+// lane_detection.webm: Video quay cảnh làn đường.
+// 2 tham số cuối cung là số luồng khi thực thi suy luân trên mỗi video
+/*====================================================================*/
+
+2, Run:
+// NOTE: trước khi thực thi với video cần thực thi dòng lệnh sau để kết nối kit với màn hình:
+export DISPLAY=:0.0
+
+2.1 chạy chương trình với video
+./status_and_roadline_detect video_status_detection.webm lane_detection.webm -t 2 -t 2 
+
+2.2 chạy chương trình vơi camera:
+// NOTE: trước khi thực thi với camera cần thực thi dòng lệnh sau để kết nối kit với camera:
+xrandr --output DP-1
+
+./status_and_roadline_detect 0 lane_detection.webm -t 2 -t 2 
+  
+
